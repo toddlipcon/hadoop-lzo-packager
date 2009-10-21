@@ -1,5 +1,5 @@
 #!/bin/bash -e
-
+set -x
 ##############################
 # Begin configurables
 ##############################
@@ -27,13 +27,16 @@ TOPDIR=$BINDIR/build/topdir
 
 SVNCO=$BINDIR/hadoop-gpl-compression-$VERSION
 SVNTAR=$BINDIR/build/hadoop-gpl-compression-$VERSION.tar.gz
-
+mkdir -p build
 if [ ! -d $SVNCO ]; then
   svn export -r $SVN_REV $SVNURL $SVNCO
 fi
 
 if [ ! -e $SVNTAR ]; then
-  (cd $SVNCO && cd .. && tar czf $SVNTAR $(basename $SVNCO))
+  pushd $SVNCO
+  cd ..
+  tar czf $SVNTAR $(basename $SVNCO)
+  popd
 fi
 
 
