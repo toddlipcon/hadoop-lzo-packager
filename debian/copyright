@@ -1,7 +1,7 @@
 This package was debianized by Todd Lipcon <todd@cloudera.com> on
 Tue, 20 Oct 2009 19:17:38 -0700.
 
-It was checked out of SVN from http://code.google.com/p/hadoop-gpl-compression/
+It was checked out from @PACKAGE_HOMEPAGE@
 
 License:
 

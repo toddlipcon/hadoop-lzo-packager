@@ -1,11 +1,11 @@
 Summary: GPL Compression Libraries for Hadoop
-Name: hadoop-gpl-compression
+Name: @PACKAGE_NAME@
 Version: @VERSION@
 Release: @RELEASE@
 License: GPL
-Source0: hadoop-gpl-compression-@VERSION@.tar.gz
+Source0: @PACKAGE_NAME@-@VERSION@.tar.gz
 Group: Development/Libraries
-URL: http://code.google.com/p/hadoop-gpl-compression/
+URL: @PACKAGE_HOMEPAGE@
 Packager: @PACKAGER@ <@PACKAGER_EMAIL@>
 Buildroot: %{_tmppath}/%{name}-%{version}
 BuildRequires: ant, ant-nodeps, gcc-c++, lzo-devel
@@ -20,7 +20,7 @@ GPLed Compression Libraries for Hadoop, built at $DATE on $HOST
 %setup
 %build
 
-ant -Dversion=%{version} compile-native package
+ant -Dname=%{name} -Dversion=%{version} compile-native package
 
 %install
 mkdir -p $RPM_BUILD_ROOT/%{hadoop_home}/lib

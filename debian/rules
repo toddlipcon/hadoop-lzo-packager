@@ -10,9 +10,9 @@
 #export DH_VERBOSE=1
 
 VERSION=$(shell dpkg-parsechangelog | grep Version | head -1 | awk '{print $$2}')
-
-DESTDIR=$(CURDIR)/debian/hadoop-gpl-compression
-NAME_VER=hadoop-gpl-compression-$(VERSION)
+NAME=@PACKAGE_NAME@
+DESTDIR=$(CURDIR)/debian/$(NAME)
+NAME_VER=$(NAME)-$(VERSION)
 HADOOP_HOME=/usr/lib/hadoop
 
 configure: configure-stamp
@@ -27,7 +27,7 @@ build: build-stamp
 build-stamp: configure-stamp  
 	dh_testdir
 
-	JAVA_HOME=/usr/lib/jvm/java-6-sun ant -Dversion=$(VERSION) compile-native package
+	JAVA_HOME=/usr/lib/jvm/java-6-sun ant -Dname=$(NAME) -Dversion=$(VERSION) compile-native package
 
 	touch $@
 

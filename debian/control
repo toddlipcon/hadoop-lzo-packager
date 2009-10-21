@@ -1,12 +1,12 @@
-Source: hadoop-gpl-compression
+Source: @PACKAGE_NAME@
 Section: devel
 Priority: extra
 Maintainer: Todd Lipcon <todd@cloudera.com>
 Build-Depends: debhelper (>= 5), sun-java6-jdk, liblzo2-dev, ant
 Standards-Version: 3.8.0
-Homepage: http://code.google.com/p/hadoop-gpl-compression/
+Homepage: @PACKAGE_HOMEPAGE@
 
-Package: hadoop-gpl-compression
+Package: @PACKAGE_NAME@
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: GPL compression libraries for Hadoop
