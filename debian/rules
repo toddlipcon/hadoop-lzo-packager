@@ -1,0 +1,89 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+VERSION=$(shell dpkg-parsechangelog | grep Version | head -1 | awk '{print $$2}')
+
+DESTDIR=$(CURDIR)/debian/hadoop-gpl-compression
+NAME_VER=hadoop-gpl-compression-$(VERSION)
+HADOOP_HOME=/usr/lib/hadoop
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+
+	touch configure-stamp
+
+
+build: build-stamp
+
+build-stamp: configure-stamp  
+	dh_testdir
+
+	JAVA_HOME=/usr/lib/jvm/java-6-sun ant -Dversion=$(VERSION) compile-native package
+
+	touch $@
+
+clean: 
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+	ant clean
+
+	dh_clean 
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_installdirs
+
+	mkdir -p $(DESTDIR)/$(HADOOP_HOME)/lib
+	install -m644 $(CURDIR)/build/$(NAME_VER).jar $(DESTDIR)/$(HADOOP_HOME)/lib/
+	install -m644 $(CURDIR)/build/$(NAME_VER).jar $(DESTDIR)/$(HADOOP_HOME)/lib/
+	rsync -av $(CURDIR)/build/$(NAME_VER)/lib/native/ $(DESTDIR)/$(HADOOP_HOME)/lib/native/
+
+
+# Build architecture-independent files here.
+binary-indep: install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs CHANGES.txt
+	dh_installdocs
+	dh_installexamples
+#	dh_install
+#	dh_installmenu
+#	dh_installdebconf
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_python
+#	dh_installinit
+#	dh_installcron
+#	dh_installinfo
+	dh_installman
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+#	dh_perl
+#	dh_makeshlibs
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure

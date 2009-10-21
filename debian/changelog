@@ -1,0 +1,5 @@
+hadoop-gpl-compression (0.2.0svn46~unbuilt-1) UNRELEASED; urgency=low
+
+  * Initial release
+
+ -- Todd Lipcon <todd@cloudera.com>  Tue, 20 Oct 2009 19:42:33 -0700

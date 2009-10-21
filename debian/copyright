@@ -1,0 +1,11 @@
+This package was debianized by Todd Lipcon <todd@cloudera.com> on
+Tue, 20 Oct 2009 19:17:38 -0700.
+
+It was checked out of SVN from http://code.google.com/p/hadoop-gpl-compression/
+
+License:
+
+    GPLv3 - /usr/share/common-licenses/GPL-3
+
+The Debian packaging is copyright 2009, Todd Lipcon <todd@cloudera.com> and
+is licensed under the GPL, see `/usr/share/common-licenses/GPL-2'.

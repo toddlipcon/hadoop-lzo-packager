@@ -13,18 +13,18 @@ RELEASE=${RELEASE:-1}
 # End configurables
 ##############################
 
-BINDIR=$(dirname $0)
+BINDIR=$(readlink -f $(dirname $0))
 TOPDIR=$BINDIR/build/topdir
 
 SVNCO=$BINDIR/hadoop-gpl-compression-$VERSION
-SVNTAR=$BINDIR/hadoop-gpl-compression-$VERSION.tar.gz
+SVNTAR=$BINDIR/build/hadoop-gpl-compression-$VERSION.tar.gz
 
 if [ ! -d $SVNCO ]; then
   svn export -r $SVN_REV $SVNURL $SVNCO
 fi
 
 if [ ! -e $SVNTAR ]; then
-  tar czf $SVNTAR $SVNCO
+  (cd $SVNCO && cd .. && tar czf $SVNTAR $(basename $SVNCO))
 fi
 
 
@@ -41,7 +41,7 @@ echo "SVN Revision: $SVN_REV"
 ##############################
 # RPM
 ##############################
-
+if [ -z "$SKIP_RPM" ]; then
 rm -Rf $TOPDIR
 mkdir -p $TOPDIR
 
@@ -62,8 +62,25 @@ rpmbuild $RPMBUILD_FLAGS \
   --buildroot $(pwd)/../BUILDROOT \
   --define "_topdir $(pwd)/.." \
   -ba hadoop-gpl-compression.spec
+popd
+fi
 
 ##############################
 # Deb
 ##############################
-# COMING SOON!
+if [ -z "$SKIP_DEB"]; then
+DEB_DIR=$BINDIR/build/deb
+mkdir -p $DEB_DIR
+rm -Rf $DEB_DIR
+
+mkdir $DEB_DIR
+cp -a $SVNTAR $DEB_DIR/hadoop-gpl-compression_$VERSION.orig.tar.gz
+pushd $DEB_DIR
+tar xzf *.tar.gz
+cp -a $BINDIR/debian/ hadoop-gpl-compression-$VERSION
+pushd hadoop-gpl-compression-$VERSION
+
+dch -D $(lsb_release -cs) --newversion $VERSION-$RELEASE "Local automatic build"
+debuild -uc -us -sa
+
+fi
