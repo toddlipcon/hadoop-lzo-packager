@@ -8,7 +8,7 @@ Group: Development/Libraries
 URL: http://code.google.com/p/hadoop-gpl-compression/
 Packager: @PACKAGER@ <@PACKAGER_EMAIL@>
 Buildroot: %{_tmppath}/%{name}-%{version}
-BuildRequires: ant, gcc-g++, lzo-devel
+BuildRequires: ant, ant-nodeps, gcc-c++, lzo-devel
 Requires: lzo
 
 %define hadoop_home @HADOOP_HOME@
