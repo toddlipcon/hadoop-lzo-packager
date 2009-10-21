@@ -1,0 +1,48 @@
+Overview
+===================
+This project is a convenient mechanism of packaging the
+hadoop-gpl-compression project from Google Code.
+
+It has three basic steps:
+
+1) Perform an svn export of the most recent revision of hadoop-gpl-compression
+2) Create and build an RPM
+3) Create an build a Debian package
+
+Requirements:
+====================
+
+- subversion
+- java (preferably sun's JDK)
+- appropriate package building tools for your platform
+  - yum install rpm-build        (RedHat based)
+  - apt-get install dev-scripts  (Debian based)
+
+When you try to build for your platform, build dependency errors will also
+inform you of any other packages you may need to install (eg lzo2 devel
+packages, ant, etc)
+
+Usage:
+====================
+To build packages, simply run the included shell script.
+
+  ./run.sh
+
+We recommend you run this on the same platform as your tasktrackers so
+as to be sure the built libraries are compatible.
+
+If you would like to skip building debian or rpm, you can do:
+
+  SKIP_RPM=1 ./run.sh
+    or
+  SKIP_DEB=1 ./run.sh
+
+If you'd like to check out a particular revision, you can do:
+
+  SVN_REV=46 ./run.sh
+
+There are some other variables that can be overridden - simply look
+at the top section of run.sh to learn what they are.
+
+After running the script, you should be able to find debs in the build/deb
+directory and RPMs in the build/topdir/RPMS directory.

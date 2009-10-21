@@ -3,12 +3,21 @@
 ##############################
 # Begin configurables
 ##############################
-SVNURL=http://hadoop-gpl-compression.googlecode.com/svn/trunk/
+SVNURL=${SVNURL:-http://hadoop-gpl-compression.googlecode.com/svn/trunk/}
 if [ -z "$SVN_REV" ]; then
   SVN_REV=$(svn info $SVNURL | grep Revision | awk '{print $2}')
 fi
 VERSION=${VERSION:-0.2.0svn$SVN_REV}
 RELEASE=${RELEASE:-1}
+
+# Some metadata fields for the packages (used only by rpms)
+PACKAGER=${PACKAGER:-$(getent passwd $USER | cut -d':' -f5 | cut -d, -f1)}
+HOST=${HOST:-$(hostname -f)}
+PACKAGER_EMAIL=${PACKAGER_EMAIL:-$USER@$HOST}
+
+# The hadoop home that the packages will eventually install into
+# TODO(todd) this is currently only used by rpms, I believe
+HADOOP_HOME=${HADOOP_HOME:-/usr/lib/hadoop-0.20}
 ##############################
 # End configurables
 ##############################
@@ -27,12 +36,6 @@ if [ ! -e $SVNTAR ]; then
   (cd $SVNCO && cd .. && tar czf $SVNTAR $(basename $SVNCO))
 fi
 
-
-VERSION=0.2.0svn$SVN_REV
-PACKAGER=${PACKAGER:-$(getent passwd $USER | cut -d':' -f5 | cut -d, -f1)}
-HOST=$(hostname -f)
-PACKAGER_EMAIL=${PACKAGER_EMAIL:-$USER@$HOST}
-HADOOP_HOME=${HADOOP_HOME:-/usr/lib/hadoop-0.20}
 
 [[ $SVN_REV == [0-9]+ ]]
 
