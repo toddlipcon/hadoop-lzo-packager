@@ -46,3 +46,12 @@ at the top section of run.sh to learn what they are.
 
 After running the script, you should be able to find debs in the build/deb
 directory and RPMs in the build/topdir/RPMS directory.
+
+
+Contributing
+===================
+To contribute to this project, please clone its repository from
+http://github.com/cloudera/hadoop-gpl-compression-packages/
+and commit patches to your github repository. When you would like to
+submit your contribution for inclusion, send a Pull Request to the
+Cloudera repository.
