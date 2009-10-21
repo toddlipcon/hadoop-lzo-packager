@@ -51,7 +51,7 @@ directory and RPMs in the build/topdir/RPMS directory.
 Contributing
 ===================
 To contribute to this project, please clone its repository from
-http://github.com/cloudera/hadoop-gpl-compression-packages/
+http://github.com/toddlipcon/hadoop-lzo-packager/
 and commit patches to your github repository. When you would like to
 submit your contribution for inclusion, send a Pull Request to the
 Cloudera repository.
