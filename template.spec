@@ -1,7 +1,7 @@
 Summary: GPL Compression Libraries for Hadoop
 Name: hadoop-gpl-compression
 Version: @VERSION@
-Release: 1
+Release: @RELEASE@
 License: GPL
 Source0: hadoop-gpl-compression-@VERSION@.tar.gz
 Group: Development/Libraries

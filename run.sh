@@ -1,13 +1,21 @@
 #!/bin/bash -e
 
- 
+##############################
+# Begin configurables
+##############################
+SVNURL=http://hadoop-gpl-compression.googlecode.com/svn/trunk/
+if [ -z "$SVN_REV" ]; then
+  SVN_REV=$(svn info $SVNURL | grep Revision | awk '{print $2}')
+fi
+VERSION=${VERSION:-0.2.0svn$SVN_REV}
+RELEASE=${RELEASE:-1}
+##############################
+# End configurables
+##############################
 
-ARCH_BITS=${ARCH_BITS:-$SYSTEM_BITS}
 BINDIR=$(dirname $0)
 TOPDIR=$BINDIR/build/topdir
-SVNURL=http://hadoop-gpl-compression.googlecode.com/svn/trunk/
-SVN_REV=$(svn info $SVNURL | grep Revision | awk '{print $2}')
-VERSION=0.2.0svn$SVN_REV
+
 SVNCO=$BINDIR/hadoop-gpl-compression-$VERSION
 SVNTAR=$BINDIR/hadoop-gpl-compression-$VERSION.tar.gz
 
@@ -41,6 +49,7 @@ mkdir -p $TOPDIR
 
 cat $BINDIR/template.spec | sed "
  s,@VERSION@,$VERSION,g;
+ s,@RELEASE@,$RELEASE,g;
  s,@PACKAGER@,$PACKAGER,g;
  s,@PACKAGER_EMAIL@,$PACKAGER_EMAIL,g;
  s,@HADOOP_HOME@,$HADOOP_HOME,g;
@@ -48,7 +57,13 @@ cat $BINDIR/template.spec | sed "
 
 cp $SVNTAR $TOPDIR/SOURCES
 
+pushd $TOPDIR/SPECS > /dev/null
+rpmbuild $RPMBUILD_FLAGS \
+  --buildroot $(pwd)/../BUILDROOT \
+  --define "_topdir $(pwd)/.." \
+  -ba hadoop-gpl-compression.spec
 
 ##############################
 # Deb
 ##############################
+# COMING SOON!
