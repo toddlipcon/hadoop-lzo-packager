@@ -74,7 +74,7 @@ fi
 ##############################
 # Deb
 ##############################
-if [ -z "$SKIP_DEB"]; then
+if [ -z "$SKIP_DEB" ]; then
 DEB_DIR=$BINDIR/build/deb
 mkdir -p $DEB_DIR
 rm -Rf $DEB_DIR
