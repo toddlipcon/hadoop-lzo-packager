@@ -8,7 +8,7 @@ Group: Development/Libraries
 URL: @PACKAGE_HOMEPAGE@
 Packager: @PACKAGER@ <@PACKAGER_EMAIL@>
 Buildroot: %{_tmppath}/%{name}-%{version}
-BuildRequires: ant, ant-nodeps, gcc-c++, lzo-devel
+BuildRequires: ant, ant-nodeps, gcc-c++, lzo2-devel
 Requires: lzo
 
 %define hadoop_home @HADOOP_HOME@
