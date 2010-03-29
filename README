@@ -14,13 +14,23 @@ Requirements:
 
 - subversion
 - java (preferably sun's JDK)
+  - JAVA_HOME must be set in your environment
 - appropriate package building tools for your platform
   - yum install rpm-build        (RedHat based)
   - apt-get install dev-scripts  (Debian based)
+- ant version 1.7.0 or greater (RedHat will require some fiddling[1])
 
 When you try to build for your platform, build dependency errors will also
 inform you of any other packages you may need to install (eg lzo2 devel
 packages, ant, etc)
+
+[1]: First you'll need to install "ant" and "ant-nodeps" with yum.  Then
+You'll need to download the binary Apache Ant distribution from
+their website, and extract the tarball somewhere.  You'll have to set
+ANT_HOME in your environment to point to the newly archived directory.
+You'll also have to put $ANT_HOME/bin in your path, before /usr/bin.
+Running "ant" on the command line should run $ANT_HOME/bin/ant, not
+/usr/bin/ant.
 
 Usage:
 ====================
