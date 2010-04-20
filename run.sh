@@ -1,4 +1,7 @@
 #!/bin/bash -e
+#
+# Copyright (c) 2010, Cloudera, inc.
+# All rights reserved.
 set -x
 
 ##############################
