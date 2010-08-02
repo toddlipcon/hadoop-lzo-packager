@@ -58,8 +58,6 @@ while [ -n "$*" ] ; do
     arg="$1"
     shift
 
-    echo "checking arg:${arg} (next: $1)"
-
     case "${arg}" in
         -h|-\?|--help)
             _opt_display_help=1
