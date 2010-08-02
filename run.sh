@@ -2,7 +2,115 @@
 #
 # Copyright (c) 2010, Cloudera, inc.
 # All rights reserved.
+
 set -x
+
+display_help() {
+    echo "usage: $0 [-h][-D][-R][-a][-p <project>][-u <name>][-e <addr>][-H <host>][-r <release>][--svn-rev <rev>]"
+    echo -e "
+  Options:
+
+    -h|--help               display help text
+    -D|--no-deb             do not build debian packages
+    -R|--no-rpm             do not build rpm packages
+
+    Infrequently used:
+
+    -r|--release <release>  release name or number (appended to the package version)
+                            (default: 1)
+    -p|--project <project>  source project from which to build where <project> is either
+                            google-code or github.
+                            (default: github)
+    -u|--user <name>        username of the person creating the package
+                            (default: ${USER})
+    -e|--packager-email <addr>
+                            email address of packager
+                            (default: ${USER}@$(hostname -f))
+    -H|--host               host on which the package was built
+                            (default: $(hostname -f))
+    --svn-rev <rev>         a specific subversion revision from which to build
+    -a|--ant                handle ant trickery for me!
+"
+}
+
+# error()
+#
+# Display an error message and optionally exit if an exit code is provided.
+#
+# error "Something bad happened"
+# error "Command foo not found" 1
+error() {
+    message="$1"
+    shift
+
+    echo "Error: ${message}"
+
+    exit_code="$1"
+    shift
+
+    if [ -n "${exit_code}" ] ; then
+        exit "${exit_code}"
+    fi
+}
+
+while [ -n "$*" ] ; do
+
+    arg="$1"
+    shift
+
+    echo "checking arg:${arg} (next: $1)"
+
+    case "${arg}" in
+        -h|-\?|--help)
+            _opt_display_help=1
+            ;;
+        -D|--no-deb)
+            SKIP_DEB=1
+            ;;
+        -R|--no-rpm)
+            SKIP_RPM=1
+            ;;
+        -n|--name)
+            NAME="$1"
+            shift
+            ;;
+        -p|--project)
+            SRC_PROJECT="$1"
+            shift
+            ;;
+        -u|--user)
+            PACKAGER="$1"
+            shift
+            ;;
+        -e|--packager-email)
+            PACKAGER_EMAIL="$1"
+            shift
+            ;;
+        -H|--host)
+            HOST="$1"
+            shift
+            ;;
+        -r|--release)
+            RELEASE="$1"
+            shift
+            ;;
+        --svn-rev)
+            SVN_REV="$1"
+            shift
+            ;;
+        -a|--ant)
+            _opt_handle_ant=1
+            ;;
+        *)
+            error "Unknown argument ${arg}"
+            ;;
+    esac
+done
+
+if [ -n "${_opt_display_help}" ] ; then
+    display_help
+    exit
+fi
 
 ##############################
 # Begin configurables
@@ -58,7 +166,7 @@ setup_github() {
     ORIG_TAR=$(ls -1 $BINDIR/build/$GITHUB_ACCOUNT-hadoop*tar.gz | head -1)
     GIT_HASH=$(expr match $ORIG_TAR ".*hadoop-lzo-\(.*\).tar.gz")
     echo "Git hash: $GIT_HASH"
-    NAME=$GITHUB_ACCOUNT-hadoop-lzo
+    NAME=${NAME:-$GITHUB_ACCOUNT-hadoop-lzo}
     VERSION=$(date +"%Y%m%d%H%M%S").$GIT_HASH
 
     pushd $BINDIR/build/ > /dev/null
