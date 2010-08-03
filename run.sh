@@ -5,6 +5,20 @@
 
 set -x
 
+ANT_VERSION="1.8.1"
+ANT_TARBALL="apache-ant-${ANT_VERSION}-bin.tar.gz"
+ANT_TARBALL_URL="http://www.gtlib.gatech.edu/pub/apache/ant/binaries/${ANT_TARBALL}"
+
+setup_ant() {
+    wget -P "${BINDIR}/build" "${ANT_TARBALL_URL}"
+    tar -C "${BINDIR}/build" -zxf "${BINDIR}/build/apache-ant-${ANT_VERSION}-bin.tar.gz"
+
+    ANT_HOME="${BINDIR}/build/apache-ant-${ANT_VERSION}"
+    PATH="${ANT_HOME}/bin:${PATH}"
+
+    export PATH ANT_HOME
+}
+
 display_help() {
     echo "usage: $0 [-h][-D][-R][-a][-p <project>][-u <name>][-e <addr>][-H <host>][-r <release>][--svn-rev <rev>]"
     echo -e "
@@ -205,6 +219,10 @@ if [ ! -e $CHECKOUT_TAR ]; then
   cd ..
   tar czf $CHECKOUT_TAR $(basename $CHECKOUT)
   popd
+fi
+
+if [ -n "${_opt_handle_ant}" ] ; then
+    setup_ant
 fi
 
 ##############################
