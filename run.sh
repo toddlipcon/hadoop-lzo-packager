@@ -142,6 +142,7 @@ PACKAGER_EMAIL=${PACKAGER_EMAIL:-$USER@$HOST}
 # The hadoop home that the packages will eventually install into
 # TODO(todd) this is currently only used by rpms, I believe
 HADOOP_HOME=${HADOOP_HOME:-/usr/lib/hadoop-0.20}
+HBASE_HOME=${HBASE_HOME:-/usr/lib/hbase}
 ##############################
 # End configurables
 ##############################
@@ -204,6 +205,7 @@ sed "
  s,@PACKAGER@,$PACKAGER,g;
  s,@PACKAGER_EMAIL@,$PACKAGER_EMAIL,g;
  s,@HADOOP_HOME@,$HADOOP_HOME,g;
+ s,@HBASE_HOME@,$HBASE_HOME,g;
 "
 }
 
