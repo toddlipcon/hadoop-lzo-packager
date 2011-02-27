@@ -41,15 +41,23 @@ To build packages, simply run the included shell script.
 We recommend you run this on the same platform as your tasktrackers so
 as to be sure the built libraries are compatible.
 
+Various options are available, to get help do:
+
+  ./run.sh -h
+
 If you would like to skip building debian or rpm, you can do:
 
-  SKIP_RPM=1 ./run.sh
+  ./run.sh --no-rpm
     or
-  SKIP_DEB=1 ./run.sh
+  ./run.sh --no-deb
 
 If you'd like to check out a particular revision, you can do:
 
-  SVN_REV=46 ./run.sh
+  ./run.sh --svn-rev=46
+
+If the downloads fail because of certificate problems, you can do:
+
+  WGET_OPTS=--no-check-certificate ./run.sh
 
 There are some other variables that can be overridden - simply look
 at the top section of run.sh to learn what they are.
