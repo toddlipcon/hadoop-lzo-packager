@@ -177,6 +177,7 @@ setup_github() {
     fi
     ORIG_TAR=$(ls -1 $BINDIR/build/$GITHUB_ACCOUNT-hadoop*tar.gz | head -1)
     GIT_HASH=$(expr match $ORIG_TAR ".*hadoop-lzo-\(.*\).tar.gz")
+    GIT_HASH=${GIT_HASH//-/.} # RPM does not support dashes in version numbers
     echo "Git hash: $GIT_HASH"
     NAME=${NAME:-$GITHUB_ACCOUNT-hadoop-lzo}
     VERSION=$(date +"%Y%m%d%H%M%S").$GIT_HASH
