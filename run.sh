@@ -10,7 +10,7 @@ ANT_TARBALL="apache-ant-${ANT_VERSION}-bin.tar.gz"
 ANT_TARBALL_URL="http://www.gtlib.gatech.edu/pub/apache/ant/binaries/${ANT_TARBALL}"
 
 setup_ant() {
-    wget -P "${BINDIR}/build" "${ANT_TARBALL_URL}"
+    wget $WGET_OPTS -P "${BINDIR}/build" "${ANT_TARBALL_URL}"
     tar -C "${BINDIR}/build" -zxf "${BINDIR}/build/apache-ant-${ANT_VERSION}-bin.tar.gz"
 
     ANT_HOME="${BINDIR}/build/apache-ant-${ANT_VERSION}"
@@ -173,7 +173,7 @@ setup_github() {
     PACKAGE_HOMEPAGE=http://github.com/$GITHUB_ACCOUNT/hadoop-lzo
     TARURL=http://github.com/$GITHUB_ACCOUNT/hadoop-lzo/tarball/$GITHUB_BRANCH
     if [ -z "$(ls $BINDIR/build/$GITHUB_ACCOUNT-hadoop*tar.gz)" ]; then
-        wget -P $BINDIR/build/ $TARURL
+        wget $WGET_OPTS -P $BINDIR/build/ $TARURL
     fi
     ORIG_TAR=$(ls -1 $BINDIR/build/$GITHUB_ACCOUNT-hadoop*tar.gz | head -1)
     GIT_HASH=$(expr match $ORIG_TAR ".*hadoop-lzo-\(.*\).tar.gz")
