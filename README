@@ -67,7 +67,7 @@ You can work around it with:
 
 Or with both options:
 
-  WGET_OPTS=--no-check-certificate --trust-server-names=on ./run.sh
+  WGET_OPTS="--no-check-certificate --trust-server-names=on" ./run.sh
 
 There are some other variables that can be overridden - simply look
 at the top section of run.sh to learn what they are.
