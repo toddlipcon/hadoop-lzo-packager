@@ -14,6 +14,7 @@ NAME=@PACKAGE_NAME@
 DESTDIR=$(CURDIR)/debian/$(NAME)
 NAME_VER=$(NAME)-$(VERSION)
 HADOOP_HOME=/usr/lib/hadoop
+HBASE_HOME=/usr/lib/hbase
 
 configure: configure-stamp
 configure-stamp:
@@ -49,6 +50,10 @@ install: build
 	install -m644 $(CURDIR)/build/$(NAME_VER).jar $(DESTDIR)/$(HADOOP_HOME)/lib/
 	rsync -av $(CURDIR)/build/$(NAME_VER)/lib/native/ $(DESTDIR)/$(HADOOP_HOME)/lib/native/
 
+	# For HBase: link to the hadoop files
+	mkdir -p $(DESTDIR)/$(HBASE_HOME)/lib
+	ln -s $(HADOOP_HOME)/lib/native $(DESTDIR)/$(HBASE_HOME)/lib/native
+	ln -s $(HADOOP_HOME)/lib/$(NAME_VER).jar $(DESTDIR)/$(HBASE_HOME)/lib/$(NAME_VER).jar
 
 # Build architecture-independent files here.
 binary-indep: install
