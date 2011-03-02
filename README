@@ -59,6 +59,16 @@ If the downloads fail because of certificate problems, you can do:
 
   WGET_OPTS=--no-check-certificate ./run.sh
 
+If the build fails and you find a file build/master then you have a
+version of wget which does not use the filename from the redirected URL.
+You can work around it with:
+
+  WGET_OPTS=--trust-server-names=on ./run.sh
+
+Or with both options:
+
+  WGET_OPTS=--no-check-certificate --trust-server-names=on ./run.sh
+
 There are some other variables that can be overridden - simply look
 at the top section of run.sh to learn what they are.
 
