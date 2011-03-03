@@ -5,13 +5,15 @@
 
 set -x
 
-ANT_VERSION="1.8.1"
+ANT_VERSION="1.8.2"
 ANT_TARBALL="apache-ant-${ANT_VERSION}-bin.tar.gz"
 ANT_TARBALL_URL="http://www.gtlib.gatech.edu/pub/apache/ant/binaries/${ANT_TARBALL}"
 
 setup_ant() {
-    wget $WGET_OPTS -P "${BINDIR}/build" "${ANT_TARBALL_URL}"
-    tar -C "${BINDIR}/build" -zxf "${BINDIR}/build/apache-ant-${ANT_VERSION}-bin.tar.gz"
+    if [ ! -d ${BINDIR}/build/apache-ant-${ANT_VERSION} ] ; then
+        wget $WGET_OPTS -P "${BINDIR}/build" "${ANT_TARBALL_URL}"
+        tar -C "${BINDIR}/build" -zxf "${BINDIR}/build/apache-ant-${ANT_VERSION}-bin.tar.gz"
+    fi
 
     ANT_HOME="${BINDIR}/build/apache-ant-${ANT_VERSION}"
     PATH="${ANT_HOME}/bin:${PATH}"
