@@ -10,6 +10,7 @@ Packager: @PACKAGER@ <@PACKAGER_EMAIL@>
 Buildroot: %{_tmppath}/%{name}-%{version}
 BuildRequires: ant, ant-nodeps, gcc-c++, lzo-devel
 Requires: lzo
+%define _use_internal_dependency_generator 0
 
 %define hadoop_home @HADOOP_HOME@
 
@@ -18,6 +19,19 @@ GPLed Compression Libraries for Hadoop, built at $DATE on $HOST
 
 %prep
 %setup
+
+# Requires: exclude libjvm.so since it generally isn't installed
+# on the system library path, and we don't want to have to install
+# with --nodeps
+# RHEL doesn't have nice macros. Oh well. Do it old school.
+%define our_req_script %{name}-find-req.sh
+cat <<__EOF__ > %{our_req_script}
+#!/bin/sh
+%{__find_requires} | grep -v libjvm
+__EOF__
+%define __find_requires %{_builddir}/%{name}-%{version}/%{our_req_script}
+chmod +x %{__find_requires}
+
 %build
 
 ant -Dname=%{name} -Dversion=%{version} compile-native package
