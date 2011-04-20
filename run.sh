@@ -173,7 +173,7 @@ setup_github() {
     GITHUB_ACCOUNT=${GITHUB_ACCOUNT:-cloudera}
     GITHUB_BRANCH=${GITHUB_BRANCH:-master}
     PACKAGE_HOMEPAGE=http://github.com/$GITHUB_ACCOUNT/hadoop-lzo
-    TARURL=https://nodeload.github.com/$GITHUB_ACCOUNT/hadoop-lzo/tarball/$GITHUB_BRANCH
+    TARURL=http://github.com/$GITHUB_ACCOUNT/hadoop-lzo/tarball/$GITHUB_BRANCH
     if [ -z "$(ls $BINDIR/build/$GITHUB_ACCOUNT-hadoop*tar.gz)" ]; then
         wget $WGET_OPTS -P $BINDIR/build/ $TARURL
     fi
