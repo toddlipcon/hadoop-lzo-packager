@@ -4,6 +4,11 @@
 # All rights reserved.
 
 set -x
+set -e
+
+# Set no-check-certificate since github's SSL certs
+# are currently messed up as of early 2011
+WGET_OPTS=${WGET_OPTS:---no-check-certificate}
 
 ANT_VERSION="1.8.2"
 ANT_TARBALL="apache-ant-${ANT_VERSION}-bin.tar.gz"
@@ -174,11 +179,12 @@ setup_github() {
     GITHUB_BRANCH=${GITHUB_BRANCH:-master}
     PACKAGE_HOMEPAGE=http://github.com/$GITHUB_ACCOUNT/hadoop-lzo
     TARURL=http://github.com/$GITHUB_ACCOUNT/hadoop-lzo/tarball/$GITHUB_BRANCH
-    if [ -z "$(ls $BINDIR/build/$GITHUB_ACCOUNT-hadoop*tar.gz)" ]; then
-        wget $WGET_OPTS -P $BINDIR/build/ $TARURL
+    DST_TAR=$BINDIR/build/src.tar.gz
+    if [ ! -s $DST_TAR ]; then
+        wget $WGET_OPTS -O $DST_TAR $TARURL
     fi
-    ORIG_TAR=$(ls -1 $BINDIR/build/$GITHUB_ACCOUNT-hadoop*tar.gz | head -1)
-    GIT_HASH=$(expr match $ORIG_TAR ".*hadoop-lzo-\(.*\).tar.gz")
+    DIR_IN_TAR=$(tar tzf $DST_TAR | head -1)
+    GIT_HASH=$(expr match $DIR_IN_TAR ".*hadoop-lzo-\(.*\)/")
     GIT_HASH=${GIT_HASH//-/.} # RPM does not support dashes in version numbers
     echo "Git hash: $GIT_HASH"
     NAME=${NAME:-$GITHUB_ACCOUNT-hadoop-lzo}
@@ -186,7 +192,7 @@ setup_github() {
 
     pushd $BINDIR/build/ > /dev/null
     mkdir $NAME-$VERSION/
-    tar -C $NAME-$VERSION/ --strip-components=1 -xzf $ORIG_TAR
+    tar -C $NAME-$VERSION/ --strip-components=1 -xzf $DST_TAR
     tar czf $NAME-$VERSION.tar.gz $NAME-$VERSION/
     popd > /dev/null
 
