@@ -1,36 +1,26 @@
 Overview
 ===================
-This project is a convenient mechanism of packaging the
-hadoop-gpl-compression project from Google Code.
+This project is a convenient mechanism of quickly building the LZO codec
+for Hadoop and then packaging it as an RPM or Debian package.
 
-It has three basic steps:
+It automates the following three steps:
 
-1) Perform an svn export of the most recent revision of hadoop-gpl-compression
-2) Create and build an RPM
-3) Create an build a Debian package
+1) Checks out a copy of the most recent version of hadoop-lzo
+2) Moves the packaging metadata into place
+3) Builds binary packages for deb or RPM
 
 Requirements:
 ====================
 
-- subversion
 - java (preferably sun's JDK)
   - JAVA_HOME must be set in your environment
 - appropriate package building tools for your platform
   - yum install rpm-build        (RedHat based)
   - apt-get install dev-scripts  (Debian based)
-- ant version 1.7.0 or greater (RedHat will require some fiddling[1])
 
 When you try to build for your platform, build dependency errors will also
 inform you of any other packages you may need to install (eg lzo2 devel
 packages, ant, etc)
-
-[1]: First you'll need to install "ant" and "ant-nodeps" with yum.  Then
-You'll need to download the binary Apache Ant distribution from
-their website, and extract the tarball somewhere.  You'll have to set
-ANT_HOME in your environment to point to the newly archived directory.
-You'll also have to put $ANT_HOME/bin in your path, before /usr/bin.
-Running "ant" on the command line should run $ANT_HOME/bin/ant, not
-/usr/bin/ant.
 
 Usage:
 ====================
@@ -45,21 +35,21 @@ Various options are available, to get help do:
 
   ./run.sh -h
 
-If you would like to skip building debian or rpm, you can do:
+After running the script, you should be able to find debs in the build/deb
+directory and RPMs in the build/topdir/RPMS directory.
 
-  ./run.sh --no-rpm
-    or
-  ./run.sh --no-deb
 
-If you'd like to check out a particular revision, you can do:
+Troubleshooting
+=====================
+- If you have rpmbuild installed but do not wish to build RPMs, or if you have
+debuild installed and don't wish to build debs, you can use the --no-rpm
+or --no-deb options to skip those builds.
 
-  ./run.sh --svn-rev=46
-
-If the downloads fail because of certificate problems, you can do:
+- If the downloads fail because of certificate problems, you can do:
 
   WGET_OPTS=--no-check-certificate ./run.sh
 
-If the build fails and you find a file build/master then you have a
+- If the build fails and you find a file build/master then you have a
 version of wget which does not use the filename from the redirected URL.
 You can work around it with:
 
@@ -71,9 +61,6 @@ Or with both options:
 
 There are some other variables that can be overridden - simply look
 at the top section of run.sh to learn what they are.
-
-After running the script, you should be able to find debs in the build/deb
-directory and RPMs in the build/topdir/RPMS directory.
 
 
 Contributing
