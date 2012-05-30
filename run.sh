@@ -10,7 +10,7 @@ set -e
 # are currently messed up as of early 2011
 WGET_OPTS=${WGET_OPTS:---no-check-certificate}
 
-ANT_VERSION="1.8.2"
+ANT_VERSION="1.8.4"
 ANT_TARBALL="apache-ant-${ANT_VERSION}-bin.tar.gz"
 ANT_TARBALL_URL="http://www.gtlib.gatech.edu/pub/apache/ant/binaries/${ANT_TARBALL}"
 
