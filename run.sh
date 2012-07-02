@@ -32,8 +32,8 @@ display_help() {
   Options:
 
     -h|--help               display help text
-    -D|--no-deb             do not build debian packages
-    -R|--no-rpm             do not build rpm packages
+    -D|--no-deb|--no-debs   do not build debian packages
+    -R|--no-rpm|--no-rpms   do not build rpm packages
 
     Infrequently used:
 
@@ -83,10 +83,10 @@ while [ -n "$*" ] ; do
         -h|-\?|--help)
             _opt_display_help=1
             ;;
-        -D|--no-deb)
+        -D|--no-deb|--no-debs)
             SKIP_DEB=1
             ;;
-        -R|--no-rpm)
+        -R|--no-rpm|--no-rpms)
             SKIP_RPM=1
             ;;
         -n|--name)
