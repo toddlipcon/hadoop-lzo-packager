@@ -37,6 +37,8 @@ display_help() {
 
     Infrequently used:
 
+    -i|--install-dir <path> directory into which to install the lzo libraries
+                            (default: /usr/lib/hadoop-0.20)
     -r|--release <release>  release name or number (appended to the package version)
                             (default: 1)
     -p|--project <project>  source project from which to build where <project> is either
@@ -88,6 +90,10 @@ while [ -n "$*" ] ; do
             ;;
         -R|--no-rpm)
             SKIP_RPM=1
+            ;;
+        -i|--install-dir)
+            INSTALL_DIR="$1"
+            shift
             ;;
         -n|--name)
             NAME="$1"
@@ -148,7 +154,7 @@ PACKAGER_EMAIL=${PACKAGER_EMAIL:-$USER@$HOST}
 
 # The hadoop home that the packages will eventually install into
 # TODO(todd) this is currently only used by rpms, I believe
-HADOOP_HOME=${HADOOP_HOME:-/usr/lib/hadoop-0.20}
+INSTALL_DIR=${INSTALL_DIR:-/usr/lib/hadoop-0.20}
 ##############################
 # End configurables
 ##############################
@@ -211,7 +217,7 @@ sed "
  s,@RELEASE@,$RELEASE,g;
  s,@PACKAGER@,$PACKAGER,g;
  s,@PACKAGER_EMAIL@,$PACKAGER_EMAIL,g;
- s,@HADOOP_HOME@,$HADOOP_HOME,g;
+ s,@INSTALL_DIR@,$INSTALL_DIR,g;
 "
 }
 

@@ -12,7 +12,7 @@ BuildRequires: ant, ant-nodeps, gcc-c++, lzo-devel
 Requires: lzo
 %define _use_internal_dependency_generator 0
 
-%define hadoop_home @HADOOP_HOME@
+%define install_dir @INSTALL_DIR@
 
 %description
 GPLed Compression Libraries for Hadoop, built at $DATE on $HOST
@@ -37,10 +37,10 @@ chmod +x %{__find_requires}
 ant -Dname=%{name} -Dversion=%{version} compile-native package
 
 %install
-mkdir -p $RPM_BUILD_ROOT/%{hadoop_home}/lib
-install -m644 $RPM_BUILD_DIR/%{name}-%{version}/build/%{name}-%{version}.jar $RPM_BUILD_ROOT/%{hadoop_home}/lib/
-rsync -av --no-t $RPM_BUILD_DIR/%{name}-%{version}/build/%{name}-%{version}/lib/native/ $RPM_BUILD_ROOT/%{hadoop_home}/lib/native/
+mkdir -p $RPM_BUILD_ROOT/%{install_dir}/lib
+install -m644 $RPM_BUILD_DIR/%{name}-%{version}/build/%{name}-%{version}.jar $RPM_BUILD_ROOT/%{install_dir}/lib/
+rsync -av --no-t $RPM_BUILD_DIR/%{name}-%{version}/build/%{name}-%{version}/lib/native/ $RPM_BUILD_ROOT/%{install_dir}/lib/native/
 
 %files
-%{hadoop_home}/lib/%{name}-%{version}.jar
-%{hadoop_home}/lib/native/
+%{install_dir}/lib/%{name}-%{version}.jar
+%{install_dir}/lib/native/
