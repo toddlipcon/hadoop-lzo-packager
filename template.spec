@@ -8,7 +8,7 @@ Group: Development/Libraries
 URL: @PACKAGE_HOMEPAGE@
 Packager: @PACKAGER@ <@PACKAGER_EMAIL@>
 Buildroot: %{_tmppath}/%{name}-%{version}
-BuildRequires: ant, ant-nodeps, gcc-c++, lzo-devel
+BuildRequires: ant, ant-nodeps, gcc-c++, lzo-devel, rsync, java-devel
 Requires: lzo
 %define _use_internal_dependency_generator 0
 
