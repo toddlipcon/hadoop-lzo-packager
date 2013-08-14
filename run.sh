@@ -205,8 +205,8 @@ setup_github() {
     GIT_HASH=${GIT_HASH//-/.} # RPM does not support dashes in version numbers
     echo "Git hash: $GIT_HASH"
     NAME=${NAME:-$GITHUB_ACCOUNT-hadoop-lzo}
-    if [[ $GITHUB_BRANCH =~ trees/ ]]; then
-      VERSION=${GITHUB_BRANCH#trees/}
+    if ! [[ $GITHUB_BRANCH =~ master/ ]]; then
+      VERSION=${GITHUB_BRANCH}
     else
       VERSION=$(date +"%Y%m%d%H%M%S").$GIT_HASH
     fi
