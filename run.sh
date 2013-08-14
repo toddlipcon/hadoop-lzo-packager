@@ -50,6 +50,10 @@ display_help() {
     -H|--host               host on which the package was built
                             (default: $(hostname -f))
     --svn-rev <rev>         a specific subversion revision from which to build
+    --github-branch         a specific branch at github
+    --github-account        a specific account at github to pull from;
+                            defaults to 'cloudera'
+    --hadoop-home           location that the RPM will use to install into
     -a|--ant                handle ant trickery for me!
 "
 }
@@ -117,6 +121,18 @@ while [ -n "$*" ] ; do
             SVN_REV="$1"
             shift
             ;;
+        --github-branch)
+            GITHUB_BRANCH="$1"
+            shift
+            ;;
+        --github-account)
+            GITHUB_ACCOUNT="$1"
+            shift
+            ;;
+        --hadoop-home)
+            HADOOP_HOME="$!"
+            shift
+            ;;
         -a|--ant)
             _opt_handle_ant=1
             ;;
@@ -175,6 +191,7 @@ checkout_googlecode() {
 }
 
 setup_github() {
+    set -x
     GITHUB_ACCOUNT=${GITHUB_ACCOUNT:-cloudera}
     GITHUB_BRANCH=${GITHUB_BRANCH:-master}
     PACKAGE_HOMEPAGE=http://github.com/$GITHUB_ACCOUNT/hadoop-lzo
@@ -188,9 +205,19 @@ setup_github() {
     GIT_HASH=${GIT_HASH//-/.} # RPM does not support dashes in version numbers
     echo "Git hash: $GIT_HASH"
     NAME=${NAME:-$GITHUB_ACCOUNT-hadoop-lzo}
-    VERSION=$(date +"%Y%m%d%H%M%S").$GIT_HASH
+    if ! [[ $GITHUB_BRANCH =~ master/ ]]; then
+      VERSION=${GITHUB_BRANCH}
+    else
+      VERSION=$(date +"%Y%m%d%H%M%S").$GIT_HASH
+    fi
+
+
 
     pushd $BINDIR/build/ > /dev/null
+    if [ -d $NAME-$VERSION ]; then
+      echo "Found previous build $NAME-$VERSION, cleaning it up"
+      rm -rf $NAME-$VERSION
+    fi
     mkdir $NAME-$VERSION/
     tar -C $NAME-$VERSION/ --strip-components=1 -xzf $DST_TAR
     tar czf $NAME-$VERSION.tar.gz $NAME-$VERSION/
