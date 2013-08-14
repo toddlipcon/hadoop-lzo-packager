@@ -55,6 +55,24 @@ If you'd like to check out a particular revision, you can do:
 
   ./run.sh --svn-rev=46
 
+If you'd like to check out from a particular github account, you can do:
+
+  ./run.sh --github-account <accountame>
+
+If you'd like to check out from a particular github branch, you can do:
+
+  ./run.sh --github-branch master
+
+If you'd like to check out from a particular github tree version, you can do:
+(this has the side effect of creating a specific version on your .deb or .rpm)
+
+  ./run.sh --github-branch trees/<version>
+
+If you'd like to change the default path that the libs will get installed to
+when using the rpm build option, you can do:
+
+  ./run.sh --hadoop-home /some/path
+
 If the downloads fail because of certificate problems, you can do:
 
   WGET_OPTS=--no-check-certificate ./run.sh
